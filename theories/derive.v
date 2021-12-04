@@ -171,7 +171,7 @@ move=> /diff_locallyP [dfc]; rewrite -addrA.
 rewrite (littleo_bigO_eqo (cst (1 : R))); last first.
   apply/eqOP; near=> k; rewrite /cst [`|1|]normr1 mulr1.
   near=> y; rewrite ltW //; near: y; apply/nbhs_normP.
-  exists k; first by near: k; exists 0.
+  exists k => /=; first by near: k; exact: nbhs_pinfty_gt.
   by move=> ? /=; rewrite -ball_normE /= sub0r normrN.
 rewrite addfo; first by move=> /eqolim; rewrite cvg_comp_shift add0r.
 by apply/eqolim0P; apply: (cvg_trans (dfc 0)); rewrite linear0.
@@ -1307,8 +1307,8 @@ have imf_sup : has_sup imf.
   split; first by exists (f a); apply/imageP; rewrite /= in_itv /= lexx.
   have [M [Mreal imfltM]] : bounded_set (f @` `[a, b]).
     by apply/compact_bounded/continuous_compact => //; exact: segment_compact.
-  exists (M + 1) => y /imfltM yleM.
-  by rewrite (le_trans _ (yleM _ _)) ?ler_norm ?ltr_addl.
+  exists (M + 1); apply/ubP => y /imfltM/= yleM.
+  by rewrite (le_trans _ (yleM _ _)) ?ler_addl ?ler_norm.
 have [|imf_ltsup] := pselect (exists2 c, c \in `[a, b]%R & f c = sup imf).
   move=> [c cab fceqsup]; exists c => // t tab; rewrite fceqsup.
   by apply/sup_upper_bound => //; exact/imageP.
