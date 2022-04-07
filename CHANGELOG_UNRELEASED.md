@@ -92,7 +92,8 @@
   + lemmas `nat_dvg_real`, `nat_cvgPpinfty`, `nat_nondecreasing_is_cvg`
   + definition `nseries`, lemmas `le_nseries`, `cvg_nseries_near`, `dvg_nseries`
 - in file `measure.v`:
-  + defintion `measure_count`, lemma `measure_countE`
+  + definition `restr`
+  + definition `measure_count`, lemma `measure_countE`
 
 ### Changed
 
@@ -106,6 +107,8 @@
   + generalize `card_fset_sum1`
 - in `lebesgue_integral.v`:
   + change the notation `\int_`
+- in `measure.v`:
+  + definition `measure_restr` made canonical
 
 ### Renamed
 
@@ -195,6 +198,8 @@
   + `integral_funennp_lt_pinfty` -> `integral_funeneg_lt_pinfty`
   + `integral_funenng_lt_pinfty` -> `integral_funepos_lt_pinfty`
   + `ae_eq_funenng_funennp` -> `ae_eq_funeposneg`
+- in `measure.v`:
+  + lemma `measure_restrE`
 
 ### Removed
 
