@@ -210,6 +210,8 @@
   + notation `[set of _]`
 - in `topology.v`:
   + lemmas `inj_can_sym_in_on`, `inj_can_sym_on`, `inj_can_sym_in`
+- in `measure.v`:
+  + lemma `measure_restrE`
 
 ### Infrastructure
 
