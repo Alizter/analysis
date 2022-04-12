@@ -97,6 +97,8 @@
   + generalize `eq_nneseries`, `nneseries0`
 - in `mathcomp_extra.v`:
   + generalize `card_fset_sum1`
+- in `classical_sets.v`:
+  + lemma `preimage10` turned into an equivalence
 
 ### Renamed
 
