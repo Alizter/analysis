@@ -86,6 +86,17 @@
 - in file `lebesgue_integral.v`:
   + lemma `integral_measure_zero`
   + lemma `eq_measure_integral`
+- in `measure.v`:
+  + inductive `measure_display`
+  + notation `_.-sigma`, `_.-sigma.-measurable`,
+             `_.-ring`, `_.-ring.-measurable`,
+             `_.-cara`, `_.-cara.-measurable`,
+             `_.-caratheodory`,
+             `_.-prod`. `_.-prod.-measurable`
+  + notation `_.-measurable`
+- in `lebesgue_measure.v`:
+  + notation `_.-ocitv`
+  + definition `ocitv_display`
 
 ### Changed
 
@@ -99,6 +110,9 @@
   + generalize `card_fset_sum1`
 - in `lebesgue_integral.v`:
   + change the notation `\int_`
+- in `measure.v`, several constructs now take a parameter of type `measure_display`
+- in `lebesgue_integral.v`, constructs with a parameter `measurableType` now
+  take an addititional parameter of type `measure_display`
 
 ### Renamed
 
@@ -188,6 +202,14 @@
   + `integral_funennp_lt_pinfty` -> `integral_funeneg_lt_pinfty`
   + `integral_funenng_lt_pinfty` -> `integral_funepos_lt_pinfty`
   + `ae_eq_funenng_funennp` -> `ae_eq_funeposneg`
+- in `measure.v`:
+  + `sigma_algebraD` -> `sigma_algebraCD`
+  + `g_measurable` -> `salgebraType`
+  + `g_measurable_eqType` -> `salgebraType_eqType`
+  + `g_measurable_choiceType` -> `salgebraType_choiceType`
+  + `g_measurable_ptType` -> `salgebraType_ptType`
+- in `lebesgue_measure.v`:
+  + `itvs` -> `ocitv_type`
 
 ### Removed
 
@@ -198,6 +220,8 @@
   + notation `[set of _]`
 - in `topology.v`:
   + lemmas `inj_can_sym_in_on`, `inj_can_sym_on`, `inj_can_sym_in`
+- in `measure.v`:
+  + definition `g_measurableType`
 
 ### Infrastructure
 
