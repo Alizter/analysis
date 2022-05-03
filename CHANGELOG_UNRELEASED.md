@@ -79,10 +79,10 @@
   + lemmas `integralM_indic`, `integralM_indic_nnsfun`, `integral_dirac`
 - in file `measure.v`:
   + lemma `eq_measure`
-  + definition `msum` and canonical `measure_sum'`
-  + definition `mzero` and canonical `measure_zero'`
+  + definition `msum`
+  + definition `mzero`
   + definition `measure_add` and lemma `measure_addE`
-  + definition `mseries` and canonical `measure_series'`
+  + definition `mseries`
 - in file `lebesgue_integral.v`:
   + lemma `integral_measure_zero`
   + lemma `eq_measure_integral`
@@ -93,7 +93,7 @@
 
 ### Changed
 
-- in `esumv`:
+- in `esum.v`:
   + remove one hypothesis in lemmas `reindex_esum`, `esum_image`
 - moved from `lebesgue_integral.v` to `lebesgue_measure.v` and generalized
   + hint `measurable_set1`/`emeasurable_set1`
@@ -207,7 +207,6 @@
   + coercions `measure_to_nadditive_measure`, `measure_additive_measure`
   + canonicals `measure_additive_measure`, `set_ring_measure`,
     `outer_measure_of_measure`, `Hahn_ext_measure`
-
 
 ### Infrastructure
 
