@@ -113,9 +113,6 @@
 
 ### Changed
 
-- in `trigo.v`:
-  + the `realType` argument of `pi` is implicit
-  + the printed type of `acos`, `asin`, `atan` is `R -> R`
 - in `Rstruct.v`:
   + statement of lemma `completeness'`, renamed to `Rcondcomplete`
   + statement of lemma `real_sup_adherent`
@@ -236,9 +233,6 @@
 
 ### Removed
 
-- in `ereal.v`:
-  + lemmas `esum_fset_ninfty`, `esum_fset_pinfty`
-  + lemmas `desum_fset_pinfty`, `desum_fset_ninfty`
 - in `Rstruct.v`:
   + definition `real_sup`
   + lemma `real_sup_is_lub`, `real_sup_ub`, `real_sup_out`
