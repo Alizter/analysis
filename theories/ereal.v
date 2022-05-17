@@ -3390,14 +3390,17 @@ Definition ereal_dnbhs (x : \bar R) (P : \bar R -> Prop) : Prop :=
     | +oo => exists M, M \is Num.real /\ forall y, M%:E <= y -> P y
     | -oo => exists M, M \is Num.real /\ forall y, y <= M%:E -> P y
   end.
+
 Definition ereal_nbhs (x : \bar R) (P : \bar R -> Prop) : Prop :=
   match x with
     | x%:E => nbhs x (fun r => P r%:E)
     | +oo => exists M, M \is Num.real /\ forall y, M%:E <= y -> P y
     | -oo => exists M, M \is Num.real /\ forall y, y <= M%:E -> P y
   end.
+
 Canonical ereal_ereal_filter :=
   FilteredType (extended R) (extended R) (ereal_nbhs).
+
 End ereal_nbhs.
 
 Lemma ereal_nbhs_pinfty_ge (R : numFieldType) (e : {posnum R}) :
@@ -3416,70 +3419,53 @@ Context {R : numFieldType}.
 Global Instance ereal_dnbhs_filter :
   forall x : \bar R, ProperFilter (ereal_dnbhs x).
 Proof.
-case=> [x||].
-- case: (Proper_dnbhs_numFieldType x) => x0 [//= xT xI xS].
-  apply Build_ProperFilter' => //=; apply Build_Filter => //=.
-  move=> P Q lP lQ; exact: xI.
-  by move=> P Q PQ /xS; apply => y /PQ.
-- apply Build_ProperFilter.
-    move=> P [x [xr xP]] //; exists (x + 1)%:E; apply xP => /=.
-    by rewrite lee_fin ler_addl.
-  split=> /= [|P Q [MP [MPr geMP]] [MQ [MQr geMQ]] |P Q sPQ [M [Mr geM]]].
-  + by exists 0%R; rewrite real0.
-  + have [MP0|MP0] := eqVneq MP 0%R.
-      have [MQ0|MQ0] := eqVneq MQ 0%R.
-        by exists 0%R; rewrite real0; split => // x x0; split;
-        [apply/geMP; rewrite MP0 | apply/geMQ; rewrite MQ0].
-      exists `|MQ|%R; rewrite realE normr_ge0; split => // x MQx; split.
-        by apply: geMP; rewrite (le_trans _ MQx) // MP0 lee_fin.
-      by apply geMQ; rewrite (le_trans _ MQx)// lee_fin real_ler_normr ?lexx.
-    have [MQ0|MQ0] := eqVneq MQ 0%R.
-      exists `|MP|%R; rewrite realE normr_ge0; split => // x MPx; split.
-      by apply geMP; rewrite (le_trans _ MPx)// lee_fin real_ler_normr ?lexx.
-      by apply geMQ; rewrite (le_trans _ MPx) // lee_fin MQ0.
-    have {}MP0 : (0 < `|MP|)%R by rewrite normr_gt0.
-    have {}MQ0 : (0 < `|MQ|)%R by rewrite normr_gt0.
-    exists (Num.max (PosNum MP0) (PosNum MQ0))%:num.
-    rewrite realE /= ge0 /=; split => //.
-    case=> [r| |//].
-    * rewrite lee_fin /= num_max num_le_maxl /= => /andP[MPx MQx]; split.
-      by apply/geMP; rewrite lee_fin (le_trans _ MPx)// real_ler_normr ?lexx.
-      by apply/geMQ; rewrite lee_fin (le_trans _ MQx)// real_ler_normr ?lexx.
-    * by move=> _; split; [apply/geMP | apply/geMQ].
-  + by exists M; split => // ? /geM /sPQ.
-- apply Build_ProperFilter.
-  + move=> P [M [Mr ltMP]]; exists (M - 1)%:E.
-    by apply: ltMP; rewrite lee_fin ger_addl oppr_le0.
-  + split=> /= [|P Q [MP [MPr leMP]] [MQ [MQr leMQ]] |P Q sPQ [M [Mr leM]]].
-    * by exists 0%R; rewrite real0.
-    * have [MP0|MP0] := eqVneq MP 0%R.
-        have [MQ0|MQ0] := eqVneq MQ 0%R.
-          by exists 0%R; rewrite real0; split => // x x0; split;
-          [apply/leMP; rewrite MP0 | apply/leMQ; rewrite MQ0].
-        exists (- `|MQ|)%R; rewrite realN realE normr_ge0; split => // x xMQ.
-        split.
-          by apply leMP; rewrite (le_trans xMQ)// lee_fin MP0 ler_oppl oppr0.
-       apply leMQ; rewrite (le_trans xMQ) // lee_fin ler_oppl -normrN.
-       by rewrite real_ler_normr ?realN // lexx.
-    * have [MQ0|MQ0] := eqVneq MQ 0%R.
-        exists (- `|MP|)%R; rewrite realN realE normr_ge0; split => // x MPx.
-        split.
-          apply leMP; rewrite (le_trans MPx) // lee_fin ler_oppl -normrN.
+move=> [r| |].
+- apply Build_ProperFilter' => //=; first exact: filter_not_empty.
+  by apply Build_Filter => //=; [exact: filterT|exact: filterI|exact: filterS].
+- apply: Build_ProperFilter => [P [x [_ xP]]|]; first by exists x%:E; exact: xP.
+  apply Build_Filter => /= [|P Q [r +] [s +] |P Q PQ [r [rr rP]]].
+  + by exists 0%R.
+  + have [-> [_ rP] [sr sQ]|r0 [rr rP]] := eqVneq r 0%R.
+      exists `|s|%R; rewrite normr_real; split => // x sx; split.
+        exact/rP/(le_trans _ sx).
+      by apply/sQ/(le_trans _ sx); rewrite lee_fin real_ler_normr ?lexx.
+    have [-> [_ sQ]|s0 [sr sQ]] := eqVneq s 0%R.
+      exists `|r|%R; rewrite normr_real; split => // x rx; split.
+        by apply/rP/(le_trans _ rx); rewrite lee_fin real_ler_normr ?lexx.
+      exact/sQ/(le_trans _ rx).
+    have /andP[{}r0 {}s0]: ((0 < `|r|) && (0 < `|s|))%R by rewrite !normr_gt0 r0.
+    exists (Num.max (PosNum r0) (PosNum s0))%:num.
+    rewrite realE /= ge0 /=; split => // -[t|_|//].
+    * rewrite lee_fin /= num_max num_le_maxl /= => /andP[rx sx]; split.
+        by apply/rP; rewrite lee_fin (le_trans _ rx)// real_ler_normr ?lexx.
+      by apply/sQ; rewrite lee_fin (le_trans _ sx)// real_ler_normr ?lexx.
+    * by split; [exact/rP|exact/sQ].
+  + by exists r; split => // ? /rP /PQ.
+- apply Build_ProperFilter => [P [x [_ xP]]|].
+  + by exists (x - 1)%:E; apply: xP; rewrite lee_fin ger_addl.
+  + split=> /= [|P Q [r +] [s +] |P Q PQ [r [rr rP]]].
+    * by exists 0%R.
+    * have [-> [_ rP] [sr sQ]|r0 [rr rP]] := eqVneq r 0%R.
+        exists (- `|s|)%R; rewrite realN normr_real; split => // x xs; split.
+          by apply/rP/(le_trans xs); rewrite lee_fin ler_oppl oppr0.
+        apply/sQ/(le_trans xs); rewrite lee_fin ler_oppl -normrN.
+        by rewrite real_ler_normr ?realN ?lexx.
+      have [-> [_ sQ]|s0 [sr sQ]] := eqVneq s 0%R.
+        exists (- `|r|)%R; rewrite realN normr_real; split => // x rx; split.
+          apply/rP/(le_trans rx); rewrite lee_fin ler_oppl -normrN.
           by rewrite real_ler_normr ?realN // lexx.
-        by apply leMQ; rewrite (le_trans MPx) // lee_fin MQ0 ler_oppl oppr0.
-      have {}MP0 : (0 < `|MP|)%R by rewrite normr_gt0.
-      have {}MQ0 : (0 < `|MQ|)%R by rewrite normr_gt0.
-      exists (- (Num.max (PosNum MP0) (PosNum MQ0))%:num)%R.
-      rewrite realN realE /= ge0 /=; split => //.
-      case=> [r|//|].
+        by apply/sQ/(le_trans rx); rewrite lee_fin ler_oppl oppr0.
+    have /andP[{}r0 {}s0]: ((0 < `|r|) && (0 < `|s|))%R by rewrite !normr_gt0 r0.
+      exists (- (Num.max (PosNum r0) (PosNum s0))%:num)%R.
+      rewrite realN realE /= ge0 /=; split => // -[t|//|_].
       - rewrite lee_fin ler_oppr num_max num_le_maxl => /andP[].
-        rewrite ler_oppr => MPx; rewrite ler_oppr => MQx; split.
-          apply/leMP; rewrite lee_fin (le_trans MPx) //= ler_oppl -normrN.
-          by rewrite real_ler_normr ?realN // lexx.
-        apply/leMQ; rewrite lee_fin (le_trans MQx) //= ler_oppl -normrN.
-        by rewrite real_ler_normr ?realN // lexx.
-      - by move=> _; split; [apply/leMP | apply/leMQ].
-    * by exists M; split => // x /leM /sPQ.
+        rewrite ler_oppr => rx; rewrite ler_oppr => sx; split.
+          apply/rP; rewrite lee_fin (le_trans rx) //= ler_oppl -normrN.
+          by rewrite real_ler_normr ?realN ?lexx.
+        apply/sQ; rewrite lee_fin (le_trans sx) //= ler_oppl -normrN.
+        by rewrite real_ler_normr ?realN ?lexx.
+      - by split; [exact/rP|exact/sQ].
+    * by exists r; split => // ? /rP /PQ.
 Qed.
 Typeclasses Opaque ereal_dnbhs.
 
