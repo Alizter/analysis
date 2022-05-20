@@ -4511,7 +4511,7 @@ by apply: measurable_fun_fubini_tonelli_G => //; exact: emeasurable_fun_funeneg.
 Qed.
 
 Lemma measurable_fubini_G : measurable_fun setT G.
-Proof. by rewrite GE; apply: emeasurable_funB. Qed.
+Proof. by rewrite GE; exact: emeasurable_funB. Qed.
 
 Let integrable_Gplus : m2.-integrable setT Gplus.
 Proof.
