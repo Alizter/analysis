@@ -1781,8 +1781,8 @@ Notation "d .-ring.-measurable" :=
 
 Local Definition measurable_fin_trivIset : set (set T) :=
   [set A | exists B : set (set T),
-      [/\  A = \bigcup_(X in B) X, forall X : set T, B X -> measurable X,
-           finite_set B & trivIset B id]].
+    [/\ A = \bigcup_(X in B) X, forall X : set T, B X -> measurable X,
+      finite_set B & trivIset B id]].
 
 Lemma ring_measurableE : d.-ring.-measurable = measurable_fin_trivIset.
 Proof.
