@@ -217,10 +217,6 @@
   + notation `[set of _]`
 - in `topology.v`:
   + lemmas `inj_can_sym_in_on`, `inj_can_sym_on`, `inj_can_sym_in`
-  + `esum_pinfty` -> `esum_ord_pinfty`
-  + `esum_ninfty` -> `esum_ord_ninfty`
-  + `desum_pinfty` -> `desum_ord_pinfty`
-  + `desum_ninfty` -> `desum_ord_ninfty`
 - `has_sup1`, `has_inf1` moved from `reals.v` to `classical_sets.v`
 - in `reals.v`:
   + type generalization of `has_supPn`
