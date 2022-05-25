@@ -99,9 +99,6 @@
   + generalize `card_fset_sum1`
 - in `lebesgue_integral.v`:
   + change the notation `\int_`
-  + lemmas `esum_ninfty`, `esum_pinfty`
-  + lemmas `addeoo`, `daddeoo`
-  + lemmas `desum_pinfty`, `desum_ninfty`
 - in `Rstruct.v`:
   + lemmas `Rsupremums_neq0`, `Rsup_isLub`, `Rsup_ub`
 - in `classical_sets.v`:
